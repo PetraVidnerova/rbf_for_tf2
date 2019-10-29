@@ -49,7 +49,7 @@ or using KMeans clustering for RBF centers
 
 ## See also:
 **[Old repo](https://github.com/PetraVidnerova/rbf_keras/)** that was written
-for Keras. 
+in 2017 for Keras. 
 
 
 ## Contact:
