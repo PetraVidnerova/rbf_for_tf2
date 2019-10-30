@@ -1,5 +1,5 @@
 import numpy as np
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import RMSprop
 from rbflayer import RBFLayer, InitCentersRandom
@@ -39,23 +39,33 @@ def test(initializer=InitCentersRandom):
 
     print(model.layers[0].get_weights())
 
-    plt.plot(X, y_pred)
-    plt.plot(X, y)
-    plt.plot([-1, 1], [0, 0], color='black')
+    # show graph 
+    plt.plot(X, y_pred)  # prediction 
+    plt.plot(X, y)       # response from data 
+    plt.plot([-1, 1], [0, 0], color='black') 
     plt.xlim([-1, 1])
 
+    # plot centers 
     centers = rbflayer.get_weights()[0]
     widths = rbflayer.get_weights()[1]
     plt.scatter(centers, np.zeros(len(centers)), s=20*widths)
 
     plt.show()
+    
+    # saving to and loading from file 
+    filename = f"rbf_{initializer.__name__}.h5"
+    print(f"Save model to file {filename} ... ", end="")
+    model.save(filename)
+    print("OK")
 
-    print("Save model to file")
-    name = initializer.__class__.__name__
-    print(initializer.__class__)
-    print(name)
-    model.save(f"rbf_{name}.h5")
+    print(f"Load model from file {filename} ... ", end="") 
+    newmodel = load_model(filename, 
+                          custom_objects={'RBFLayer': RBFLayer})
+    print("OK")
 
+    # check if the loaded model works same as the original 
+    y_pred2 = newmodel.predict(X)
+    print("Same responses: ", all(y_pred == y_pred2))
 
 if __name__ == "__main__":
 
