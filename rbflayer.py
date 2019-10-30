@@ -15,6 +15,7 @@ class InitCentersRandom(Initializer):
 
     def __init__(self, X):
         self.X = X
+        super().__init__()
 
     def __call__(self, shape, dtype=None):
         assert shape[1] == self.X.shape[1]
@@ -52,7 +53,7 @@ class RBFLayer(Layer):
             self.initializer = RandomUniform(0.0, 1.0)
         else:
             self.initializer = initializer
-        super(RBFLayer, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def build(self, input_shape):
 
@@ -67,7 +68,7 @@ class RBFLayer(Layer):
                                      # initializer='ones',
                                      trainable=True)
 
-        super(RBFLayer, self).build(input_shape)
+        super().build(input_shape)
 
     def call(self, x):
 
@@ -83,5 +84,5 @@ class RBFLayer(Layer):
         config = {
             'output_dim': self.output_dim
         }
-        base_config = super(RBFLayer, self).get_config()
+        base_config = super().get_config()
         return dict(list(base_config.items()) + list(config.items()))
