@@ -1,4 +1,4 @@
-from tensorflow.keras import backend as K
+import tensorflow as tf
 from tensorflow.keras.layers import Layer
 from tensorflow.keras.initializers import RandomUniform, Initializer, Constant
 import numpy as np
@@ -51,7 +51,7 @@ class RBFLayer(Layer):
         self.output_dim = output_dim
 
         if isinstance(betas, Initializer):
-            self.betas_initializer = betas 
+            self.betas_initializer = betas
         else:
             self.betas_initializer = Constant(value=betas)
 
@@ -61,7 +61,6 @@ class RBFLayer(Layer):
             self.initializer = initializer
 
         super().__init__(**kwargs)
-
 
     def build(self, input_shape):
 
@@ -79,9 +78,9 @@ class RBFLayer(Layer):
 
     def call(self, x):
 
-        C = K.expand_dims(self.centers)
-        H = K.transpose(C-K.transpose(x))
-        return K.exp(-self.betas * K.sum(H**2, axis=1))
+        C = tf.expand_dims(self.centers, -1)
+        H = tf.transpose(C-tf.transpose(x))
+        return tf.exp(-self.betas * tf.math.reduce_sum(H**2, axis=1))
 
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
