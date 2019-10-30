@@ -5,7 +5,7 @@
 RBF layer for Tensorflow 2.0 (as custom layer derived from tf.keras.layers.Layer)
 
 You need rbflayer.py to use RBF layers in your code. See test.py for
-**very simple** example.
+**very simple** examples.
 
 Feel free to use or modify the code. 
 
@@ -23,7 +23,7 @@ Feel free to use or modify the code.
 
   model = Sequential()
   model.add(rbflayer)
-  model.add(Dense(n_outputs))
+  model.add(Dense(n_outputs, use_bias=False))
 ``` 
 
 or using KMeans clustering for RBF centers 
@@ -46,6 +46,10 @@ or using KMeans clustering for RBF centers
  ```
  rbfnet = load_model("some_fency_file_name.h5", custom_objects={'RBFLayer': RBFLayer})
  ```
+
+ You can also load weights (centers or widhts) from file, see IntFromFile in initializer.py and
+ example in test.py.
+
 
 ## See also:
 **[Old repo](https://github.com/PetraVidnerova/rbf_keras/)** that was written
