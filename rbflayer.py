@@ -47,13 +47,21 @@ class RBFLayer(Layer):
     """
 
     def __init__(self, output_dim, initializer=None, betas=1.0, **kwargs):
+
         self.output_dim = output_dim
-        self.init_betas = betas
+
+        if isinstance(betas, Initializer):
+            self.betas_initializer = betas 
+        else:
+            self.betas_initializer = Constant(value=betas)
+
         if not initializer:
             self.initializer = RandomUniform(0.0, 1.0)
         else:
             self.initializer = initializer
+
         super().__init__(**kwargs)
+
 
     def build(self, input_shape):
 
@@ -63,8 +71,7 @@ class RBFLayer(Layer):
                                        trainable=True)
         self.betas = self.add_weight(name='betas',
                                      shape=(self.output_dim,),
-                                     initializer=Constant(
-                                         value=self.init_betas),
+                                     initializer=self.betas_initializer,
                                      # initializer='ones',
                                      trainable=True)
 

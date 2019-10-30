@@ -12,6 +12,7 @@ class InitCentersKMeans(Initializer):
     def __init__(self, X, max_iter=100):
         self.X = X
         self.max_iter = max_iter
+        super().__init__() 
 
     def __call__(self, shape, dtype=None):
         assert shape[1] == self.X.shape[1]
