@@ -18,8 +18,11 @@ class InitCentersRandom(Initializer):
         super().__init__()
 
     def __call__(self, shape, dtype=None):
-        assert shape[1] == self.X.shape[1]
+        assert shape[1:] == self.X.shape[1:]  # check dimension
+
+        # np.random.randint returns ints from [low, high) !
         idx = np.random.randint(self.X.shape[0], size=shape[0])
+
         return self.X[idx, :]
 
 
@@ -50,15 +53,14 @@ class RBFLayer(Layer):
 
         self.output_dim = output_dim
 
+        # betas is either initializer object or float
         if isinstance(betas, Initializer):
             self.betas_initializer = betas
         else:
             self.betas_initializer = Constant(value=betas)
 
-        if not initializer:
-            self.initializer = RandomUniform(0.0, 1.0)
-        else:
-            self.initializer = initializer
+        self.initializer = initializer if initializer else RandomUniform(
+            0.0, 1.0)
 
         super().__init__(**kwargs)
 
@@ -78,8 +80,8 @@ class RBFLayer(Layer):
 
     def call(self, x):
 
-        C = tf.expand_dims(self.centers, -1)
-        H = tf.transpose(C-tf.transpose(x))
+        C = tf.expand_dims(self.centers, -1)  # inserts a dimension of 1
+        H = tf.transpose(C-tf.transpose(x))  # matrix of differences
         return tf.exp(-self.betas * tf.math.reduce_sum(H**2, axis=1))
 
     def compute_output_shape(self, input_shape):
