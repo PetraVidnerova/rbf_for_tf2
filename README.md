@@ -47,7 +47,8 @@ or using KMeans clustering for RBF centers
  rbfnet = load_model("some_fency_file_name.h5", custom_objects={'RBFLayer': RBFLayer})
  ```
 
- You can also load weights (centers or widhts) from file, see IntFromFile in initializer.py and
+ You can also load weights (centers or widhts) from file (.npy file with an numpy array of the right shape),
+ see IntFromFile in initializer.py and
  example in test.py.
 
 
