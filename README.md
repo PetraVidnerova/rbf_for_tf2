@@ -37,7 +37,7 @@ or using KMeans clustering for RBF centers
 ``` 
  
  If you need any other setup of centers or widhts, you can very easily define your own initializer,
- just define your subclass of `tensorflow.keras.initializers.Initializer`.
+ just write your subclass of `tensorflow.keras.initializers.Initializer`.
 
  Because you have created Keras model with a custom layer, you need to take it into 
  account if you need to save it to file and load it.
