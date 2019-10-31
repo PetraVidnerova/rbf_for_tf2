@@ -10,7 +10,7 @@ You need rbflayer.py to use RBF layers in your code. See test.py for
 Feel free to use or modify the code. 
 
 ## Requirements:
- Tensorflow, Scikit-learn, optionally Matplotlib (only for test.py)
+ Tensorflow, Scikit-learn, optionally Matplotlib (only for the toy example in test.py)
 
 ## Usage:
 
